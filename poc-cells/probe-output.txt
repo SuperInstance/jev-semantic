@@ -1,0 +1,34 @@
+P1 nested cells: task=1be700f5a511 obs=dd6e42c37a20,2c5d064c1180 readings=f9954529d76f..
+[task] 1be700f5a511
+  [observation] dd6e42c37a20
+    [reading] f9954529d76f
+    [reading] d7ad6b886b54
+  [observation] 2c5d064c1180
+    [reading] d7ad6b886b54
+    [reading] 50a3f7b664c4
+P1 ok: f9954529d76f reachable at 3 levels from task hash alone
+P2 identical claim/run/receipt at L0,L1,L2:
+  reading: claim=0d8dbc17 run=a16df512 receipt=c2fd39bc
+  observation: claim=1dac9bc9 run=f9988c1d receipt=dea13a09
+  task: claim=b7863ddd run=dcda1741 receipt=319f983e
+P2 stress: identical intents -> same claim? True  (fd93ab11)
+P2 stress: run1=615bd8a9 run2=839e8635 both children of claim=fd93ab11
+P2 stress: claim has 2 children — fork is representable, but staleness check 'claim with no descendants' now FALSELY PASSES for one branch
+P3 addressing cost vs cell worth (40-hex path per hop):
+  depth 1 (task): full path=40B, cell=137B, path ok
+  depth 2 (observation): full path=80B, cell=140B, path ok
+  depth 3 (reading): full path=120B, cell=72B, path COSTS MORE
+  but expansion via reverse-index costs one hash PER HOP, not 40B*depth carried
+  crossover: if cells must be self-addressing by full path, depth 2 already loses
+  wrapped 6 more levels (31 objects total) — store handles it; the COST moved entirely into the index/walker
+P4 nexus spin on f9954529d76f — direct parents (one pass):
+  direct: dd6e42c37a20 kind=observation
+P4 transitive closure: 8 ancestors, kinds: ['observation', 'task', 'wrap0', 'wrap1', 'wrap2', 'wrap3', 'wrap4', 'wrap5']
+  level-kind observation: 1 cell(s), e.g. ['dd6e42c3']
+  level-kind task: 1 cell(s), e.g. ['1be700f5']
+  level-kind wrap0: 1 cell(s), e.g. ['2423ef2f']
+  level-kind wrap1: 1 cell(s), e.g. ['b1ec1cb7']
+  level-kind wrap2: 1 cell(s), e.g. ['c23d49ac']
+  level-kind wrap3: 1 cell(s), e.g. ['fcd73597']
+  level-kind wrap4: 1 cell(s), e.g. ['8d691a32']
+  level-kind wrap5: 1 cell(s), e.g. ['b03f9914']
