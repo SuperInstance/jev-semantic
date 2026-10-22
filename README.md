@@ -26,5 +26,8 @@ disagreement is data.
 
 ## Status
 
-v0. The student judges at 7ms on ARM, bit-identical across
-architectures. The log is live. The graph comes next.
+v0. The student judges at 12.3 ms p50 on aarch64 (4 intra-op threads;
+6.2 ms mean at 1 thread on x86_64 — measured figures in BENCHMARK.md),
+deterministic per configuration (bit-exact reruns at fixed settings;
+the contract is in DETERMINISM.md). The log is live. The graph comes
+next.

@@ -2,6 +2,20 @@
 
 *In response to "what's AMAZING here — not good, amazing?"*
 
+> **Correction (2026-10-22, F4 audit — the essay below is kept as
+> written).** Two of its premises are wrong as stated. "Costs 7 ms":
+> no ARM measurement behind that figure ever existed; measured it is
+> 12.3 ms p50 at 4 intra-op threads on aarch64 (Jetson Cortex-A78AE,
+> onnxruntime 1.31.0) and 6.2 ms mean at 1 thread on x86_64 — see
+> BENCHMARK.md. "Bit-identical everywhere": determinism holds **per
+> configuration** — bit-exact reruns at fixed settings, but ~1×10⁻⁷
+> logit shifts across runtime settings (graph-optimization level,
+> torch-vs-ONNX); across architectures, agreement is exact only at the
+> four-decimal output convention — see DETERMINISM.md. The
+> re-judge-and-subtract argument survives with those pins: fixed
+> runtime configuration per node, differences below 1×10⁻⁶ treated as
+> noise.
+
 ## You can diff two minds.
 
 A judgment in your system is a pure function of three hashes, costs 7 ms,
