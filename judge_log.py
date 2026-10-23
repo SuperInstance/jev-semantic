@@ -15,6 +15,20 @@ LOG = os.path.expanduser("~/judgment-log.tsv")
 def blob_hash(data: bytes) -> str:
     return hashlib.sha1(b"blob %d\0" % len(data) + data).hexdigest()
 
+def judge_id() -> str:
+    """The judge column names the judge AND the blob hash of its manifest
+    (judges/intuition-student-v1.md, which pins the artifact sha256s), so a
+    log line can be verified against the exact manifest it was judged under.
+    Falls back to the bare name when the manifest is not beside this script."""
+    name = "intuition-student-v1"
+    manifest = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                            "judges", "intuition-student-v1.md")
+    try:
+        with open(manifest, "rb") as f:
+            return f"{name}@{blob_hash(f.read())}"
+    except OSError:
+        return name
+
 def main():
     src = sys.argv[1]
     question = sys.argv[2] if len(sys.argv) > 2 else "root"
@@ -37,7 +51,7 @@ def main():
 
     subject = blob_hash(text.encode())
     qhash = blob_hash(question.encode())
-    judge = "intuition-student-v1"  # manifest hash goes here when we have judges/
+    judge = judge_id()
     ts = time.strftime("%Y-%m-%dT%H:%M:%S")
 
     line = f"{ts}\t{subject}\t{qhash}\t{judge}\t{neg:.4f}\t{zero:.4f}\t{pos:.4f}\n"
